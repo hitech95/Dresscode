@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'frontend',
         'passwords' => 'customers',
     ],
 
@@ -36,9 +36,14 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'frontend' => [
             'driver' => 'session',
             'provider' => 'customers',
+        ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'employees',
         ],
 
         'api' => [
@@ -99,12 +104,12 @@ return [
     'passwords' => [
         'customers' => [
             'provider' => 'customers',
-            'table' => 'customer_password_resets',
+            'table' => 'customers_password_resets',
             'expire' => 60,
         ],
         'employees' => [
             'provider' => 'employees',
-            'table' => 'employe_password_resets',
+            'table' => 'employees_password_resets',
             'expire' => 60,
         ],
     ],
