@@ -2,12 +2,8 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
-class User extends Authenticatable
+class Customer extends User
 {
-    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -19,11 +15,17 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * Get the addresses for the customer.
      *
-     * @var array
+     * @param boolean $billing
+     * @return \App\Address
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    public function addresses($billing = false)
+    {
+        if($billing) {
+            return $this->hasMany('App\Comment')->billing();
+        } else {
+            return $this->hasMany('App\Comment')->shipment();
+        }
+    }
 }
