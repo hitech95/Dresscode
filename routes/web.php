@@ -15,35 +15,73 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::namespace('Admin')->prefix('admin')->group(function () {
+    //Route::prefix('admin')->group(function () {
+        // Authentication Routes...
+        Route::get('login', 'Auth\LoginController@showLoginForm')->name('admin.login');
+        Route::post('login', 'Auth\LoginController@login');
+        Route::get('logout', 'Auth\LoginController@logout')->name('admin.logout');
 
-Route::prefix('admin')->group(function () {
-    // Authentication Routes...
-    Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('login_admin');
-    Route::post('login', 'Admin\Auth\LoginController@login');
-    Route::get('logout', 'Admin\Auth\LoginController@logout')->name('logout_admin');
-    // Registration Routes...
-    Route::get('register', 'Admin\Auth\RegisterController@showRegistrationForm')->name('register_admin');
-    Route::post('register', 'Admin\Auth\RegisterController@register');
-    // Password Reset Routes...
-    Route::get('password/reset', 'Admin\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-    Route::post('password/email', 'Admin\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::get('password/reset/{token}', 'Admin\Auth\ResetPasswordController@showResetForm')->name('password.reset');
-    Route::post('password/reset', 'Admin\Auth\ResetPasswordController@reset');
+        // Registration Routes...
+        Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('admin.register');
+        Route::post('register', 'Auth\RegisterController@register');
 
-    Route::get('dashboard', 'Admin\DashboardController@showDashboard')->name('dashboard_admin');
+        // Password Reset Routes...
+        //Route::get('password/reset', 'Admin\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+        //Route::post('password/email', 'Admin\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+        //Route::get('password/reset/{token}', 'Admin\Auth\ResetPasswordController@showResetForm')->name('password.reset');
+        //Route::post('password/reset', 'Admin\Auth\ResetPasswordController@reset');
+
+        Route::get('dashboard', 'DashboardController@showDashboard')->name('admin.dashboard');
+    //});
 });
 
-// Authentication Routes...
-Route::get('login', 'Frontend\Auth\LoginController@showLoginForm')->name('login');
-Route::post('login', 'Frontend\Auth\LoginController@login');
-Route::get('logout', 'Frontend\Auth\LoginController@logout')->name('logout');
-// Registration Routes...
-Route::get('register', 'Frontend\Auth\RegisterController@showRegistrationForm')->name('register');
-Route::post('register', 'Frontend\Auth\RegisterController@register');
-// Password Reset Routes...
-Route::get('password/reset', 'Frontend\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-Route::post('password/email', 'Frontend\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-Route::get('password/reset/{token}', 'Frontend\Auth\ResetPasswordController@showResetForm')->name('password.reset');
-Route::post('password/reset', 'Frontend\Auth\ResetPasswordController@reset');
+Route::namespace('Frontend')->group(function () {
+    // Authentication Routes...
+    Route::get('login', 'Auth\LoginController@showLoginForm')->name('customer.login');
+    Route::post('login', 'Auth\LoginController@login');
+    Route::get('logout', 'Auth\LoginController@logout')->name('customer.logout');
 
-Route::get('/home', 'HomeController@index')->name('home');
+    // Registration Routes...
+    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('customer.register');
+    Route::post('register', 'Auth\RegisterController@register');
+
+    // Password Reset Routes...
+    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
+    // User Routes...
+    Route::get('profile', 'Profile\CustomerProfileController@showDashboard')->name('customer.profile');
+    //Route::get('/addresses', 'Profile\CustomerAddressController@showAddresses')->name('customer.addresses');
+    //Route::get('orders', 'Profile\CustomerOrderController@showOrders')->name('customer.orders');
+    Route::get('messages', 'Profile\CustomerTicketController@showMessages')->name('customer.tickets');
+
+    Route::resource('addresses', 'Profile\CustomerAddressController', [
+        'except' => [
+            'show'
+        ],
+        'names' => [
+            'index' => 'customer.addresses',
+            'create' => 'customer.addresses.create',
+            'edit' => 'customer.addresses.edit',
+            'update' => 'customer.addresses.update',
+            'store' => 'customer.addresses.store',
+            'destroy' => 'customer.addresses.destroy',
+        ]
+    ]);
+
+    Route::resource('orders', 'Profile\CustomerOrderController', [
+        'only' => [
+            'index', 'show'
+            ],
+        'names' => [
+            'index' => 'customer.orders',
+            'show' => 'customer.orders.show'
+            ]
+    ]);
+
+    // Shop Routes...
+    Route::get('/cart', 'Shop\CartController@showCart')->name('cart');
+});
