@@ -26,6 +26,8 @@ class Address extends Model
 
     /**
      * Get the customer record associated with this address.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function customer()
     {
@@ -36,6 +38,7 @@ class Address extends Model
      * Scope a query to only include billing addresses.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeBilling($query)
@@ -47,6 +50,7 @@ class Address extends Model
      * Scope a query to only include billing addresses.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeShipment($query)
@@ -57,7 +61,7 @@ class Address extends Model
     /**
      * Get if the address is for billing.
      *
-     * @param  string  $value
+     * @param  string $value
      * @return boolean
      */
     public function getBillingAttribute($value)
@@ -68,7 +72,7 @@ class Address extends Model
     /**
      * Set the address's as invoice.
      *
-     * @param  boolean  $value
+     * @param  boolean $value
      * @return void
      */
     public function setBillingAttribute($value)

@@ -17,15 +17,10 @@ class Customer extends User
     /**
      * Get the addresses for the customer.
      *
-     * @param boolean $billing
-     * @return \App\Address
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function addresses($billing = false)
+    public function addresses()
     {
-        if($billing) {
-            return $this->hasMany('App\Comment')->billing();
-        } else {
-            return $this->hasMany('App\Comment')->shipment();
-        }
+        return $this->hasMany('App\Address');
     }
 }

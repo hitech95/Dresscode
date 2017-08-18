@@ -2,15 +2,8 @@
 
 namespace App;
 
-class Employe extends User
+class Employee extends User
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'employees';
-
     /**
      * The attributes that are mass assignable.
      *

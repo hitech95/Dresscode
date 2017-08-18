@@ -16,18 +16,9 @@ class Shop extends Model
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'latitude', 'latitude',
-    ];
-
-    /**
      * The brands that belong to the shop.
      *
-     * @return \App\Brand
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function brands()
     {
@@ -37,7 +28,7 @@ class Shop extends Model
     /**
      * The media that belong to the shop.
      *
-     * @return \App\Media
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function roles()
     {

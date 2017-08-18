@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class BrandShop extends Pivot
+class EmployeeRole extends Pivot
 {
     //
 }
