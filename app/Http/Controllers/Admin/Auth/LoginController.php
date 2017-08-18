@@ -35,11 +35,13 @@ class LoginController extends Controller
     /**
      * Show the application's login form.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function showLoginForm()
+    public function showLoginForm(Request $request)
     {
-        return view('admin.auth.login');
+        $url = $request->only('url');
+        return view('admin.auth.login', ['url' => $url]);
     }
 
     /**
@@ -93,12 +95,31 @@ class LoginController extends Controller
     }
 
     /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        if(!Auth::check()) {
+            $request->session()->invalidate();
+        }
+
+        return redirect('/');
+    }
+
+
+
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:admin')->except('logout');
     }
 }

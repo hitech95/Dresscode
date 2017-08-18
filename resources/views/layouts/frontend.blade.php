@@ -69,7 +69,7 @@
                         @endif
                         <li><a href="{{ route('cart') }}">@lang('app.cart')</a></li>
                         @if (Auth::guard('admin')->check())
-                            <li><a href="{{ route('admin_dashboard') }}">@lang('app.admin')</a></li>
+                            <li><a href="{{ route('admin.dashboard') }}">@lang('app.admin')</a></li>
                         @endif
                     </ul>
                 </div>
