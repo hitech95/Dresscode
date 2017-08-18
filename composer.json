@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "dresscode/merchant",
+    "description": "The Dresscode Framework.",
+    "keywords": ["framework", "laravel", "shopping"],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -9,7 +9,8 @@
         "barryvdh/laravel-debugbar": "^2.4",
         "doctrine/dbal": "^2.5",
         "laravel/framework": "5.4.*",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "spatie/laravel-medialibrary": "^5.0.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
