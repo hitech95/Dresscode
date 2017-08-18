@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEmployeRoles extends Migration
+class CreateTicketAttachmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,13 +14,13 @@ class CreateEmployeRoles extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('employe_role', function (Blueprint $table) {
-            $table->integer('employe_id')->unsigned();
-            $table->integer('role_id')->unsigned();
+        Schema::create('ticket_attachments', function (Blueprint $table) {
+            $table->integer('media_id')->unsigned();
+            $table->integer('ticket_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('employe_id')->references('id')->on('employees')->onDelete('cascade');
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->foreign('media_id')->references('id')->on('media')->onDelete('cascade');
+            $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
         });
         Schema::enableForeignKeyConstraints();
     }
@@ -32,6 +32,6 @@ class CreateEmployeRoles extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employe_role');
+        Schema::dropIfExists('ticket_attachments');
     }
 }

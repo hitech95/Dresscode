@@ -13,7 +13,7 @@ class EmployeesTableSeeder extends Seeder
     {
         DB::table('employees')->insert([
             'name' => 'Administrator',
-            'surname' => 'Employe',
+            'surname' => 'Employee',
             'username' => 'root',
             'password' => bcrypt('dresscode'),
             'enabled' => true,

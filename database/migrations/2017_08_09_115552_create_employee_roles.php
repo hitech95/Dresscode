@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMediaTable extends Migration
+class CreateEmployeeRoles extends Migration
 {
     /**
      * Run the migrations.
@@ -14,16 +14,13 @@ class CreateMediaTable extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('media', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('file');
-            $table->string('format');
-            $table->integer('width');
-            $table->integer('height');
-            $table->integer('parent_id')->unsigned()->nullable();
+        Schema::create('employee_role', function (Blueprint $table) {
+            $table->integer('employee_id')->unsigned();
+            $table->integer('role_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('parent_id')->references('id')->on('media')->onDelete('cascade');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
         Schema::enableForeignKeyConstraints();
     }
@@ -35,6 +32,6 @@ class CreateMediaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('media');
+        Schema::dropIfExists('employee_role');
     }
 }

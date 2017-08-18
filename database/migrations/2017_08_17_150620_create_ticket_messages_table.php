@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMediaTable extends Migration
+class CreateTicketMessagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,16 +14,15 @@ class CreateMediaTable extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('media', function (Blueprint $table) {
+        Schema::create('ticket_messages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('file');
-            $table->string('format');
-            $table->integer('width');
-            $table->integer('height');
-            $table->integer('parent_id')->unsigned()->nullable();
+            $table->longText('content');
+            $table->integer('employee_id')->unsigned()->nullable();
+            $table->integer('ticket_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('parent_id')->references('id')->on('media')->onDelete('cascade');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
         });
         Schema::enableForeignKeyConstraints();
     }
@@ -35,6 +34,6 @@ class CreateMediaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('media');
+        Schema::dropIfExists('ticket_messages');
     }
 }

@@ -11,9 +11,9 @@ class EmployeesRoleTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('employe_role')->insert([
+        DB::table('employee_role')->insert([
             'role_id' => 1,
-            'employe_id' => 1,
+            'employee_id' => 1,
         ]);
     }
 }
