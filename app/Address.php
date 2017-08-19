@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Address extends Model
 {
+    use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -14,7 +17,7 @@ class Address extends Model
     protected $fillable = [
         'address', 'zip', 'city', 'district',
         'company', 'name', 'surname', 'phone',
-        'invoice'
+        'invoice', 'customer_id'
     ];
 
     /**
@@ -43,7 +46,20 @@ class Address extends Model
      */
     public function scopeBilling($query)
     {
-        return $query->where('invoice', true);
+        return $query->where('invoice', '=',true);
+    }
+
+    /**
+     * Scope a query to only include addresses of a customer.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param integer $id
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfCustomer($query, $id)
+    {
+        return $query->where('customer_id', '=', $id);
     }
 
     /**
@@ -55,7 +71,7 @@ class Address extends Model
      */
     public function scopeShipment($query)
     {
-        return $query->where('invoice', false);
+        return $query->where('invoice', '=',false);
     }
 
     /**

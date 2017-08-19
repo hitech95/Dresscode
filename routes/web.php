@@ -54,9 +54,11 @@ Route::namespace('Frontend')->group(function () {
 
     // User Routes...
     Route::get('profile', 'Profile\CustomerProfileController@showDashboard')->name('customer.profile');
+    Route::get('profile/edit', 'Profile\CustomerProfileController@editDashboard')->name('customer.profile.edit');
+    Route::patch('profile', 'Profile\CustomerProfileController@updateDashboard')->name('customer.profile.update');
     //Route::get('/addresses', 'Profile\CustomerAddressController@showAddresses')->name('customer.addresses');
     //Route::get('orders', 'Profile\CustomerOrderController@showOrders')->name('customer.orders');
-    Route::get('messages', 'Profile\CustomerTicketController@showMessages')->name('customer.tickets');
+    Route::get('tickets', 'Profile\CustomerTicketController@showMessages')->name('customer.tickets');
 
     Route::resource('addresses', 'Profile\CustomerAddressController', [
         'except' => [

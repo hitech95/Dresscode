@@ -11,13 +11,13 @@ class AddressPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view the address.
+     * Determine whether the user can edit the address.
      *
      * @param  \App\Customer  $customer
      * @param  \App\Address  $address
      * @return mixed
      */
-    public function view(Customer $customer, Address $address)
+    public function edit(Customer $customer, Address $address)
     {
         return $customer->id == $address->customer_id;
     }
@@ -54,6 +54,7 @@ class AddressPolicy
      */
     public function delete(Customer $customer, Address $address)
     {
-        return $customer->id == $address->customer_id;
+        return count($customer->addresses()) > 0 &&
+            $customer->id == $address->customer_id;
     }
 }

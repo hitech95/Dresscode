@@ -18,7 +18,7 @@ class CreateTicketStatusesTable extends Migration
             $table->string('name');
             $table->string('color');
             $table->boolean('close');
-            $table->boolean('default');
+            $table->boolean('default')->defaut(false);
             $table->timestamps();
         });
     }

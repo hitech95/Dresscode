@@ -31,12 +31,23 @@
                         <td>{{ $customer->surname }}</td>
                     </tr>
 
+                    @isset($customer->phone)
+                    <tr>
+                        <td>Phone</td>
+                        <td>{{ $customer->phone }}</td>
+                    </tr>
+                    @endisset
+
                     <tr>
                         <td>E-Mail</td>
                         <td>{{ $customer->email }}</td>
                     </tr>
                     </tbody>
                 </table>
+
+                <a class="btn btn-link" href="{{ route('customer.profile.edit') }}">
+                    Edit Profile
+                </a>
             </div>
         </div>
     </div>

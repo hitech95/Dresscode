@@ -49,7 +49,7 @@
                                         <p>{{ $address->phone }}</p>
                                     </div>
                                     <div class="panel-footer">
-                                        <a href="#">Edit</a> | <a href="#">Delete</a>
+                                        <a href="{{ route('customer.addresses.edit', ['id' => $address->id]) }}">Edit</a> | <a href="#">Delete</a>
                                         @if(!$address->default)
                                             | <a href="#">Default</a>
                                         @endif

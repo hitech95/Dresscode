@@ -11,7 +11,7 @@ class Customer extends User
      * @var array
      */
     protected $fillable = [
-        'name', 'surname', 'email', 'password',
+        'name', 'surname', 'email', 'password', 'phone',
     ];
 
     /**
