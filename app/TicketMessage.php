@@ -30,7 +30,7 @@ class TicketMessage extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function employee()
     {
         return $this->belongsTo('App\Employee');
     }

@@ -14,7 +14,7 @@ class CreateTicketAttachmentsTable extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('ticket_attachments', function (Blueprint $table) {
+        Schema::create('ticket_attachment', function (Blueprint $table) {
             $table->integer('media_id')->unsigned();
             $table->integer('ticket_id')->unsigned();
             $table->timestamps();

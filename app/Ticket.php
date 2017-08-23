@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
@@ -20,7 +21,11 @@ class Ticket extends Model
      *
      * @var array
      */
-    protected $dates = ['completed_at'];
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'completed_at'
+    ];
 
     /**
      * Check if ticket have replays
@@ -29,7 +34,7 @@ class Ticket extends Model
      */
     public function hasReplays()
     {
-        return (bool) count($this->messages) > 1;
+        return (bool)count($this->messages) > 1;
     }
 
     /**
@@ -39,7 +44,19 @@ class Ticket extends Model
      */
     public function isComplete()
     {
-        return (bool) $this->completed_at;
+        return (bool)$this->completed_at;
+    }
+
+    /**
+     * Mark ticket as completed
+     *
+     * @return bool
+     */
+    public function complete()
+    {
+        $this->status_id = TicketStatus::close()->firstOrFail()->id;
+        $this->completed_at = Carbon::now();
+        return $this->save();
     }
 
     /**
@@ -78,6 +95,7 @@ class Ticket extends Model
     {
         return $query->where('customer_id', $id);
     }
+
     /**
      * Get all agent tickets.
      *
@@ -148,6 +166,6 @@ class Ticket extends Model
      */
     public function attachments()
     {
-        return $this->belongsToMany('App\TicketAttachment');
+        return $this->belongsToMany('App\Media');
     }
 }
