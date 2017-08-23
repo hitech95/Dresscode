@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Reset Password</div>
+                    <div class="panel-heading">@lang('auth.reset')</div>
                     <div class="panel-body">
                         @if (session('status'))
                             <div class="alert alert-success">
@@ -14,7 +14,7 @@
                         @endif
                         {!! Form::open(['route' => 'password.email', 'class' => 'form-horizontal']) !!}
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            {!! Form::label('email', 'E-Mail Address', ['class' => 'col-md-4 control-label']); !!}
+                            {!! Form::label('email', __('app.email'), ['class' => 'col-md-4 control-label']) !!}
 
                             <div class="col-md-6">
                                 {!! Form::email('email', old('email'), ['class' => 'form-control', 'required' => 'required', 'autofocus' => 'autofocus']) !!}
@@ -29,7 +29,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                {!! Form::submit('Send Password Reset Link', ['class' => 'btn btn-primary']) !!}
+                                {!! Form::submit(__('auth.reset-link'), ['class' => 'btn btn-primary']) !!}
                             </div>
                         </div>
                         {!! Form::close() !!}

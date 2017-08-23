@@ -12,7 +12,7 @@ class CartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showDashboard()
+    public function showCart()
     {
         return view('shop.cart');
     }

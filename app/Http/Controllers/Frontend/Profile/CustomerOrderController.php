@@ -13,7 +13,7 @@ class CustomerOrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showOrders()
+    public function index()
     {
         return view('customer.dashboard', ['customer' => Auth::guard('frontend')->user()]);
     }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
@@ -18,7 +19,7 @@ class CustomerProfileController extends Controller
      */
     public function showDashboard()
     {
-        return view('customer.profile', ['customer' => Auth::guard('frontend')->user()]);
+        return view('customer.dashboard', ['customer' => Auth::guard('frontend')->user()]);
     }
 
     /**
@@ -26,9 +27,9 @@ class CustomerProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function editDashboard()
+    public function editProfile()
     {
-        return view('customer.profile_edit', ['customer' => Auth::guard('frontend')->user()]);
+        return view('customer.profile', ['customer' => Auth::guard('frontend')->user()]);
     }
 
     /**
@@ -37,7 +38,7 @@ class CustomerProfileController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function updateDashboard(Request $request)
+    public function updateProfile(Request $request)
     {
         $customer = Auth::guard('frontend')->user();
 
@@ -45,15 +46,23 @@ class CustomerProfileController extends Controller
         $this->validator($data)->validate();
 
         if (array_key_exists('phone', $data)) {
-            $data['phone'] = PhoneNumber::make($data['phone'], 'IT')->formatE164();
-        }
-
-        if (array_key_exists('password', $data)) {
-            $data['password'] = bcrypt($data['password']);
+            $data['phone'] = PhoneNumber::make($data['phone'], 'IT');
         }
 
         if (array_key_exists('email', $data)) {
             unset($data['email']);
+        }
+
+        if (array_key_exists('password_change', $data)) {
+            if (Hash::check($data['password_old'], $customer->password)) {
+                $data['password'] = bcrypt($data['password']);
+            } else {
+                return redirect()->back()->withErrors([
+                    'password_old' => strtolower(__('validation.password', [
+                        'attribute' => __('app.password-old')
+                    ]))
+                ]);
+            }
         }
 
         $customer->update($data);
@@ -68,12 +77,20 @@ class CustomerProfileController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $rule = array(
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
             'phone' => 'sometimes|nullable|phone:IT',
-            'password' => 'sometimes|nullable|string|min:6|confirmed',
-        ]);
+        );
+
+        if (array_key_exists('password_change', $data)) {
+            $rule = array(
+                'password_old' => 'required|string',
+                'password' => 'required|string|min:6|confirmed',
+            );
+        }
+
+        return Validator::make($data, $rule);
     }
 
     /**

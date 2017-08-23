@@ -14,6 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Address' => 'App\Policies\AddressPolicy',
+        'App\Ticket' => 'App\Policies\TicketPolicy',
     ];
 
     /**
@@ -24,7 +25,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //Gate::resource('address', 'AddressPolicy');
     }
 }

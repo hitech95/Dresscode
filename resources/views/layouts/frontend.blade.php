@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@lang('app.app-name')</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -29,7 +29,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        @lang('app.app-name')
                     </a>
                 </div>
 
@@ -43,8 +43,8 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guard('frontend')->guest())
-                            <li><a href="{{ route('customer.login') }}">Login</a></li>
-                            <li><a href="{{ route('customer.register') }}">Register</a></li>
+                            <li><a href="{{ route('customer.login') }}">@lang('menu.login')</a></li>
+                            <li><a href="{{ route('customer.register') }}">@lang('menu.register')</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -53,23 +53,23 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="{{ route('customer.profile') }}">@lang('app.profile')</a>
+                                        <a href="{{ route('customer.dashboard') }}">@lang('menu.profile')</a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('customer.orders') }}">@lang('app.order')</a>
+                                        <a href="{{ route('customer.orders') }}">@lang('menu.orders')</a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('customer.tickets') }}">@lang('app.message')</a>
+                                        <a href="{{ route('customer.tickets') }}">@lang('menu.tickets')</a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('customer.logout') }}">@lang('app.logout')</a>
+                                        <a href="{{ route('customer.logout') }}">@lang('menu.logout')</a>
                                     </li>
                                 </ul>
                             </li>
                         @endif
-                        <li><a href="{{ route('cart') }}">@lang('app.cart')</a></li>
+                        <li><a href="{{ route('cart') }}">@lang('menu.cart')</a></li>
                         @if (Auth::guard('admin')->check())
-                            <li><a href="{{ route('admin.dashboard') }}">@lang('app.admin')</a></li>
+                            <li><a href="{{ route('admin.dashboard') }}">@lang('menu.admin')</a></li>
                         @endif
                     </ul>
                 </div>

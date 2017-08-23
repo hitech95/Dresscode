@@ -5,16 +5,24 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <ol class="breadcrumb">
-                    <li><a href="{{ route('customer.profile') }}">Il tuo profilo</a></li>
-                    <li><a href="{{ route('customer.addresses') }}">Indirizzi</a></li>
-                    <li class="active">Modifica indirizzo</li>
+                    <li><a href="{{ route('customer.dashboard') }}">@lang('customer.your-profile')</a></li>
+                    <li ><a href="{{ route('customer.addresses') }}">@lang('customer.your-addresses')</a></li>
+                    @if(isset($address))
+                        <li class="active">@lang('customer.edit-address')</li>
+                    @else
+                        <li class="active">@lang('customer.add-address')</li>
+                    @endif
                 </ol>
                 <div class="panel panel-default">
-                    <div class="panel-heading">Modifica indirizzo</div>
+                    <div class="panel-heading">@lang('customer.edit-address')</div>
                     <div class="panel-body">
-                        {!! Form::model($address, ['route' => ['customer.addresses.update', $address->id], 'method' => 'PATCH', 'class' => 'form-horizontal']) !!}
+                        @if(isset($address))
+                            {!! Form::model($address, ['route' => ['customer.addresses.update', $address->id], 'method' => 'PATCH', 'class' => 'form-horizontal']) !!}
+                        @else
+                            {!! Form::open(['route' => 'customer.addresses.store', 'class' => 'form-horizontal']) !!}
+                        @endif
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            {!! Form::label('name', 'Name', ['class' => 'col-md-4 control-label']); !!}
+                            {!! Form::label('name', __('app.name'), ['class' => 'col-md-4 control-label']) !!}
 
                             <div class="col-md-6">
                                 {!! Form::text('name', old('name'), ['class' => 'form-control', 'required' => 'required', 'autofocus' => 'autofocus']) !!}
@@ -28,7 +36,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('surname') ? ' has-error' : '' }}">
-                            {!! Form::label('surname', 'Surname', ['class' => 'col-md-4 control-label']); !!}
+                            {!! Form::label('surname', __('app.surname'), ['class' => 'col-md-4 control-label']) !!}
 
                             <div class="col-md-6">
                                 {!! Form::text('surname', old('surname'), ['class' => 'form-control', 'required' => 'required']) !!}
@@ -42,7 +50,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('company') ? ' has-error' : '' }}">
-                            {!! Form::label('company', 'Company', ['class' => 'col-md-4 control-label']); !!}
+                            {!! Form::label('company', __('app.company'), ['class' => 'col-md-4 control-label']) !!}
 
                             <div class="col-md-6">
                                 {!! Form::text('company', old('company'), ['class' => 'form-control', 'required' => 'required']) !!}
@@ -56,7 +64,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
-                            {!! Form::label('address', 'Address', ['class' => 'col-md-4 control-label']); !!}
+                            {!! Form::label('address', __('app.address'), ['class' => 'col-md-4 control-label']) !!}
 
                             <div class="col-md-6">
                                 {!! Form::text('address', old('address'), ['class' => 'form-control', 'required' => 'required']) !!}
@@ -70,7 +78,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
-                            {!! Form::label('city', 'City', ['class' => 'col-md-4 control-label']); !!}
+                            {!! Form::label('city', __('app.city'), ['class' => 'col-md-4 control-label']) !!}
 
                             <div class="col-md-6">
                                 {!! Form::text('city', old('city'), ['class' => 'form-control', 'required' => 'required']) !!}
@@ -84,7 +92,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('zip') ? ' has-error' : '' }}">
-                            {!! Form::label('zip', 'Zip', ['class' => 'col-md-4 control-label']); !!}
+                            {!! Form::label('zip', __('app.zip'), ['class' => 'col-md-4 control-label']) !!}
 
                             <div class="col-md-6">
                                 {!! Form::text('zip', old('zip'), ['class' => 'form-control', 'required' => 'required']) !!}
@@ -98,7 +106,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('district') ? ' has-error' : '' }}">
-                            {!! Form::label('district', 'Province', ['class' => 'col-md-4 control-label']); !!}
+                            {!! Form::label('district', __('app.district'), ['class' => 'col-md-4 control-label']) !!}
 
                             <div class="col-md-6">
                                 {!! Form::text('district', old('district'), ['class' => 'form-control', 'required' => 'required']) !!}
@@ -112,7 +120,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
-                            {!! Form::label('phone', 'Phone', ['class' => 'col-md-4 control-label']); !!}
+                            {!! Form::label('phone', __('app.phone'), ['class' => 'col-md-4 control-label']) !!}
 
                             <div class="col-md-6">
                                 {!! Form::text('phone', old('phone'), ['class' => 'form-control']) !!}
@@ -127,7 +135,11 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                {!! Form::submit('Add', ['class' => 'btn btn-primary']) !!}
+                                @if(isset($address))
+                                    {!! Form::submit(__('app.edit'), ['class' => 'btn btn-primary']) !!}
+                                @else
+                                    {!! Form::submit(__('app.add'), ['class' => 'btn btn-primary']) !!}
+                                @endif
                             </div>
                         </div>
                         {!! Form::close() !!}

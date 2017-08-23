@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Propaganistas\LaravelPhone\PhoneNumber;
+
 class Customer extends User
 {
 
@@ -22,5 +24,27 @@ class Customer extends User
     public function addresses()
     {
         return $this->hasMany('App\Address');
+    }
+
+    /**
+     * Get the customer's phone number.
+     *
+     * @param  string  $value
+     * @return Propaganistas\LaravelPhone\PhoneNumber
+     */
+    public function getPhoneAttribute($value)
+    {
+        return PhoneNumber::make($value, 'IT');
+    }
+
+    /**
+     * Set the customer's phone number.
+     *
+     * @param  Propaganistas\LaravelPhone\PhoneNumber  $value
+     * @return void
+     */
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['phone'] = $value->formatE164();
     }
 }

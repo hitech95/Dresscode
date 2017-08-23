@@ -54,7 +54,6 @@ class AddressPolicy
      */
     public function delete(Customer $customer, Address $address)
     {
-        return count($customer->addresses()) > 0 &&
-            $customer->id == $address->customer_id;
+        return $customer->id == $address->customer_id && count($customer->addresses()) > 0  && !$address->default;
     }
 }

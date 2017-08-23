@@ -16,24 +16,22 @@ Route::get('/', function () {
 });
 
 Route::namespace('Admin')->prefix('admin')->group(function () {
-    //Route::prefix('admin')->group(function () {
-        // Authentication Routes...
-        Route::get('login', 'Auth\LoginController@showLoginForm')->name('admin.login');
-        Route::post('login', 'Auth\LoginController@login');
-        Route::get('logout', 'Auth\LoginController@logout')->name('admin.logout');
+    // Authentication Routes...
+    Route::get('login', 'Auth\LoginController@showLoginForm')->name('admin.login');
+    Route::post('login', 'Auth\LoginController@login');
+    Route::get('logout', 'Auth\LoginController@logout')->name('admin.logout');
 
-        // Registration Routes...
-        Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('admin.register');
-        Route::post('register', 'Auth\RegisterController@register');
+    // Registration Routes...
+    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('admin.register');
+    Route::post('register', 'Auth\RegisterController@register');
 
-        // Password Reset Routes...
-        //Route::get('password/reset', 'Admin\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-        //Route::post('password/email', 'Admin\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-        //Route::get('password/reset/{token}', 'Admin\Auth\ResetPasswordController@showResetForm')->name('password.reset');
-        //Route::post('password/reset', 'Admin\Auth\ResetPasswordController@reset');
+    // Password Reset Routes...
+    //Route::get('password/reset', 'Admin\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    //Route::post('password/email', 'Admin\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    //Route::get('password/reset/{token}', 'Admin\Auth\ResetPasswordController@showResetForm')->name('password.reset');
+    //Route::post('password/reset', 'Admin\Auth\ResetPasswordController@reset');
 
-        Route::get('dashboard', 'DashboardController@showDashboard')->name('admin.dashboard');
-    //});
+    Route::get('dashboard', 'DashboardController@showDashboard')->name('admin.dashboard');
 });
 
 Route::namespace('Frontend')->group(function () {
@@ -53,12 +51,26 @@ Route::namespace('Frontend')->group(function () {
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
     // User Routes...
-    Route::get('profile', 'Profile\CustomerProfileController@showDashboard')->name('customer.profile');
-    Route::get('profile/edit', 'Profile\CustomerProfileController@editDashboard')->name('customer.profile.edit');
-    Route::patch('profile', 'Profile\CustomerProfileController@updateDashboard')->name('customer.profile.update');
+    Route::get('dashboard', 'Profile\CustomerProfileController@showDashboard')->name('customer.dashboard');
+    Route::get('profile', 'Profile\CustomerProfileController@editProfile')->name('customer.profile');
+    Route::patch('profile', 'Profile\CustomerProfileController@updateProfile')->name('customer.profile.update');
     //Route::get('/addresses', 'Profile\CustomerAddressController@showAddresses')->name('customer.addresses');
     //Route::get('orders', 'Profile\CustomerOrderController@showOrders')->name('customer.orders');
-    Route::get('tickets', 'Profile\CustomerTicketController@showMessages')->name('customer.tickets');
+
+    Route::resource('tickets', 'Profile\CustomerTicketController', [
+        'only' => [
+            'index', 'show', 'create', 'store', 'update'
+        ],
+        'names' => [
+            'index' => 'customer.tickets',
+            'show' => 'customer.tickets.show',
+            'create' => 'customer.tickets.create',
+            'store' => 'customer.tickets.store',
+            'update' => 'customer.tickets.update',
+        ]
+    ]);
+    Route::get('tickets/{id}/close', 'Profile\CustomerTicketController@close')->name('customer.tickets.close');
+    Route::get('tickets/{id}/open', 'Profile\CustomerTicketController@open')->name('customer.tickets.open');
 
     Route::resource('addresses', 'Profile\CustomerAddressController', [
         'except' => [
@@ -73,15 +85,16 @@ Route::namespace('Frontend')->group(function () {
             'destroy' => 'customer.addresses.destroy',
         ]
     ]);
+    Route::get('addresses/{id}/default', 'Profile\CustomerAddressController@markDefault')->name('customer.addresses.default');
 
     Route::resource('orders', 'Profile\CustomerOrderController', [
         'only' => [
             'index', 'show'
-            ],
+        ],
         'names' => [
             'index' => 'customer.orders',
             'show' => 'customer.orders.show'
-            ]
+        ]
     ]);
 
     // Shop Routes...

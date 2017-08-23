@@ -15,12 +15,21 @@ class TicketStatusesSeeder extends Seeder
             'name' => 'Pending',
             'color' => '#e69900',
             'close' => false,
+            'default' => true,
         ]);
 
         DB::table('ticket_statuses')->insert([
             'name' => 'Solved',
             'color' => '#15a000',
             'close' => true,
+            'default' => true,
+        ]);
+
+        DB::table('ticket_statuses')->insert([
+            'name' => 'Re Open',
+            'color' => '#8a2be2 ',
+            'close' => false,
+            'default' => false,
         ]);
     }
 }

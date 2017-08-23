@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Propaganistas\LaravelPhone\PhoneNumber;
 
 class Address extends Model
 {
@@ -17,7 +18,7 @@ class Address extends Model
     protected $fillable = [
         'address', 'zip', 'city', 'district',
         'company', 'name', 'surname', 'phone',
-        'invoice', 'customer_id'
+        'invoice', 'customer_id', 'default'
     ];
 
     /**
@@ -94,5 +95,27 @@ class Address extends Model
     public function setBillingAttribute($value)
     {
         $this->attributes['invoice'] = $value;
+    }
+
+    /**
+     * Get the customer's phone number.
+     *
+     * @param  string  $value
+     * @return Propaganistas\LaravelPhone\PhoneNumber
+     */
+    public function getPhoneAttribute($value)
+    {
+        return PhoneNumber::make($value, 'IT');
+    }
+
+    /**
+     * Set the customer's phone number.
+     *
+     * @param  Propaganistas\LaravelPhone\PhoneNumber  $value
+     * @return void
+     */
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['phone'] = $value->formatE164();
     }
 }

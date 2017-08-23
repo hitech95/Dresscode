@@ -31,13 +31,13 @@ class CustomerAddressController extends Controller
      */
     public function create()
     {
-        return view('customer.address_create');
+        return view('customer.address_edit');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -48,8 +48,8 @@ class CustomerAddressController extends Controller
         $data = $request->all();
         $this->validator($data)->validate();
 
-        if(array_key_exists('phone', $data)){
-            $data['phone'] = PhoneNumber::make($data['phone'], 'IT')->formatE164();
+        if (array_key_exists('phone', $data)) {
+            $data['phone'] = PhoneNumber::make($data['phone'], 'IT');
         }
 
         Address::create([
@@ -72,7 +72,7 @@ class CustomerAddressController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -80,9 +80,9 @@ class CustomerAddressController extends Controller
         $customer = Auth::guard('frontend')->user();
         $address = Address::ofCustomer($customer->id)->findOrFail($id);
 
-        if($customer->can('edit', $address)){
+        if ($customer->can('edit', $address)) {
             return view('customer.address_edit', ['address' => $address]);
-        }else{
+        } else {
             abort(404);
         }
     }
@@ -90,8 +90,8 @@ class CustomerAddressController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -99,18 +99,18 @@ class CustomerAddressController extends Controller
         $customer = Auth::guard('frontend')->user();
         $address = Address::ofCustomer($customer->id)->findOrFail($id);
 
-        if($customer->can('update', $address)){
+        if ($customer->can('update', $address)) {
 
             $data = $request->all();
             $this->validator($data)->validate();
 
-            if(array_key_exists('phone', $data)){
+            if (array_key_exists('phone', $data)) {
                 $data['phone'] = PhoneNumber::make($data['phone'], 'IT')->formatE164();
             }
 
             $address->update($data);
             return redirect()->route('customer.addresses');
-        }else{
+        } else {
             abort(404);
         }
     }
@@ -118,7 +118,7 @@ class CustomerAddressController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -126,18 +126,43 @@ class CustomerAddressController extends Controller
         $customer = Auth::guard('frontend')->user();
         $address = Address::customer($customer->id)->findOrFail($id);
 
-        if($customer->can('delete', $address)){
+        if ($customer->can('delete', $address)) {
             $address->delete();
             return redirect()->route('customer.addresses');
-        }else{
+        } else {
             abort(404);
         }
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * Mark the specified resource as default.
      *
-     * @param  array  $data
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function markDefault($id)
+    {
+
+        $customer = Auth::guard('frontend')->user();
+        $addresses = Address::OfCustomer($customer->id)->get();
+        $address = $addresses->keyBy('id')->get($id);
+
+        if ($customer->can('update', $address)) {
+            foreach ($addresses as $address) {
+                $address->default = ($address->id == $id);
+                $address->save();
+            }
+
+            return redirect()->route('customer.addresses');
+        } else {
+            abort(404);
+        }
+    }
+
+    /**
+     * Get a validator for an incoming store request.
+     *
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
