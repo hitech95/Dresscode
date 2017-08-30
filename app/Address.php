@@ -116,6 +116,6 @@ class Address extends Model
      */
     public function setPhoneAttribute($value)
     {
-        $this->attributes['phone'] = $value->formatE164();
+        $this->attributes['phone'] = ($value == null) ? $value : $value->formatE164();
     }
 }

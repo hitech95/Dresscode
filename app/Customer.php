@@ -29,7 +29,7 @@ class Customer extends User
     /**
      * Get the customer's phone number.
      *
-     * @param  string  $value
+     * @param  string $value
      * @return Propaganistas\LaravelPhone\PhoneNumber
      */
     public function getPhoneAttribute($value)
@@ -40,11 +40,11 @@ class Customer extends User
     /**
      * Set the customer's phone number.
      *
-     * @param  Propaganistas\LaravelPhone\PhoneNumber  $value
+     * @param  Propaganistas\LaravelPhone\PhoneNumber $value
      * @return void
      */
     public function setPhoneAttribute($value)
     {
-        $this->attributes['phone'] = $value->formatE164();
+        $this->attributes['phone'] = ($value == null) ? $value : $value->formatE164();
     }
 }
