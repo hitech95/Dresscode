@@ -56,7 +56,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        if (array_key_exists('phone', $data)) {
+        if (array_key_exists('phone', $data) && isset($data['phone'])) {
             $data['phone'] = PhoneNumber::make($data['phone'], 'IT');
         }
 
