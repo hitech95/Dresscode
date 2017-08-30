@@ -34,7 +34,10 @@ class Customer extends User
      */
     public function getPhoneAttribute($value)
     {
-        return PhoneNumber::make($value, 'IT');
+        if (isset($value)) {
+            return PhoneNumber::make($value, 'IT');
+        }
+        return null;
     }
 
     /**
