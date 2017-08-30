@@ -166,6 +166,6 @@ class Ticket extends Model
      */
     public function attachments()
     {
-        return $this->belongsToMany('App\Media');
+        return $this->belongsToMany('App\Media', 'ticket_attachment');
     }
 }
