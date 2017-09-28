@@ -16,7 +16,7 @@ class AddShopDetails extends Migration
         Schema::table('shops', function($table) {
             $table->string('address')->after('slug');
             $table->string('phone')->after('address');
-            $table->string('fax')->after('phone');
+            $table->string('fax')->after('phone')->nullable();
             $table->string('vat')->after('fax');
         });
     }
