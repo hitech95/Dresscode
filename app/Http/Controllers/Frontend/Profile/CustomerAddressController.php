@@ -80,7 +80,7 @@ class CustomerAddressController extends Controller
         $customer = Auth::guard('frontend')->user();
         $address = Address::ofCustomer($customer->id)->findOrFail($id);
 
-        if ($customer->can('edit', $address)) {
+        if ($customer->can('update', $address)) {
             return view('customer.address_edit', ['address' => $address]);
         } else {
             abort(404);
@@ -142,7 +142,6 @@ class CustomerAddressController extends Controller
      */
     public function markDefault($id)
     {
-
         $customer = Auth::guard('frontend')->user();
         $addresses = Address::OfCustomer($customer->id)->get();
         $address = $addresses->keyBy('id')->get($id);

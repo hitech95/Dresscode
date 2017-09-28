@@ -19,7 +19,10 @@ class CustomerProfileController extends Controller
      */
     public function showDashboard()
     {
-        return view('customer.dashboard', ['customer' => Auth::guard('frontend')->user()]);
+        $customer = Auth::guard('frontend')->user();
+        $tickets = Ticket::userTickets($customer->id)->with('status')->get();
+
+        return view('customer.dashboard', compact('customer', 'tickets'));
     }
 
     /**

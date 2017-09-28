@@ -11,18 +11,6 @@ class AddressPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can edit the address.
-     *
-     * @param  \App\Customer  $customer
-     * @param  \App\Address  $address
-     * @return mixed
-     */
-    public function edit(Customer $customer, Address $address)
-    {
-        return $customer->id == $address->customer_id;
-    }
-
-    /**
      * Determine whether the user can create addresses.
      *
      * @param  \App\Customer  $customer
