@@ -65,6 +65,35 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @foreach ($tickets as $ticket)
+                            <tr>
+                                <td>{{ $ticket->id }}</td>
+                                <td>{{ $ticket->subject }}</td>
+                                <td><span style="color: {{ $ticket->status->color }}">{{ $ticket->status->name }}</span>
+                                </td>
+                                <td>{{ $ticket->updated_at->toFormattedDateString() }}</td>
+                                <td>
+                                    @isset( $ticket->employee->name)
+                                        {{ $ticket->employee->name }}
+                                    @endisset
+                                </td>
+                                <td>
+                                    <a href="{{ route('customer.tickets.show', ['id' => $ticket->id]) }}"
+                                       class="btn btn-default">@lang('app.view')</a>
+                                    @if($ticket->isComplete())
+                                        @if($customer->can('open', $ticket))
+                                            <a href="{{ route('customer.tickets.open', ['id' => $ticket->id]) }}"
+                                               class="btn btn-default">@lang('app.open')</a>
+                                        @endif
+                                    @else
+                                        @if($customer->can('close', $ticket))
+                                            <a href="{{ route('customer.tickets.close', ['id' => $ticket->id]) }}"
+                                               class="btn btn-default">@lang('app.close')</a>
+                                        @endif
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </section>
@@ -73,17 +102,17 @@
                     <table class="table table-condensed">
                         <tbody>
                         <tr>
-                            <td>Name</td>
+                            <td>@lang('app.name')</td>
                             <td>{{ $customer->name }}</td>
                         </tr>
 
                         <tr>
-                            <td>Surname</td>
+                            <td>@lang('app.surname')</td>
                             <td>{{ $customer->surname }}</td>
                         </tr>
 
                         <tr>
-                            <td>Phone</td>
+                            <td>@lang('app.phone')</td>
                             @if(isset($customer->phone))
                                 <td>{{ $customer->phone->formatInternational() }}</td>
                             @else
@@ -96,7 +125,7 @@
                         </tr>
 
                         <tr>
-                            <td>E-Mail</td>
+                            <td>@lang('app.email')</td>
                             <td>{{ $customer->email }}</td>
                         </tr>
                         </tbody>
