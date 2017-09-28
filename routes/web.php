@@ -16,6 +16,11 @@ Route::get('/', function () {
 });
 
 Route::namespace('Admin')->prefix('admin')->group(function () {
+    Route::get('/', function(){
+        return redirect()->route('admin.dashboard');
+    });
+
+
     // Authentication Routes...
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('admin.login');
     Route::post('login', 'Auth\LoginController@login');
@@ -32,6 +37,27 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     //Route::post('password/reset', 'Admin\Auth\ResetPasswordController@reset');
 
     Route::get('dashboard', 'DashboardController@showDashboard')->name('admin.dashboard');
+    Route::get('profile', 'EmployeeController@showCurrentEmployee')->name('admin.profile');
+
+    Route::resource('shops', 'ShopController', ['names' => [
+        'index' => 'admin.shops',
+        'show' => 'admin.shop.show',
+        'create' => 'admin.shop.create',
+        'store' => 'admin.shop.store',
+        'edit' => 'admin.shop.edit',
+        'update' => 'admin.shop.update',
+        'destroy' => 'admin.shop.destroy',
+    ]]);
+
+    Route::resource('brands', 'BrandController', ['names' => [
+        'index' => 'admin.brands',
+        'show' => 'admin.brand.show',
+        'create' => 'admin.brand.create',
+        'store' => 'admin.brand.store',
+        'edit' => 'admin.brand.edit',
+        'update' => 'admin.brand.update',
+        'destroy' => 'admin.brand.destroy',
+    ]]);
 });
 
 Route::namespace('Frontend')->group(function () {
