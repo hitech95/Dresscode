@@ -47,7 +47,7 @@ class Address extends Model
      */
     public function scopeBilling($query)
     {
-        return $query->where('invoice', '=',true);
+        return $query->where('invoice', '=', true);
     }
 
     /**
@@ -72,7 +72,7 @@ class Address extends Model
      */
     public function scopeShipment($query)
     {
-        return $query->where('invoice', '=',false);
+        return $query->where('invoice', '=', false);
     }
 
     /**
@@ -100,8 +100,8 @@ class Address extends Model
     /**
      * Get the customer's phone number.
      *
-     * @param  string  $value
-     * @return Propaganistas\LaravelPhone\PhoneNumber
+     * @param  string $value
+     * @return \Propaganistas\LaravelPhone\PhoneNumber
      */
     public function getPhoneAttribute($value)
     {
@@ -114,11 +114,13 @@ class Address extends Model
     /**
      * Set the customer's phone number.
      *
-     * @param  Propaganistas\LaravelPhone\PhoneNumber  $value
+     * @param  \Propaganistas\LaravelPhone\PhoneNumber $value
      * @return void
      */
     public function setPhoneAttribute($value)
     {
-        $this->attributes['phone'] = $value->formatE164();
+        if (isset($value)) {
+            $this->attributes['phone'] = $value->formatE164();
+        }
     }
 }
