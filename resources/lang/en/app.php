@@ -46,12 +46,13 @@ return [
      */
     'name' => 'Name',
     'surname' => 'Surname',
-    'phone' => 'Phone',
     'username' => 'Username',
     'email' => 'E-Mail',
     'password' => 'Password',
     'password-old' => 'Previous Password',
     'password-confirm' => 'Confirm Password',
+    'phone' => 'Phone',
+    'fax' => 'Fax',
     'company' => 'Company',
     'address' => 'Address',
     'city' => 'City',
@@ -61,4 +62,8 @@ return [
     'message' => 'Message',
     'category' => 'Category',
     'priority' => 'Priority',
+    'vat' => 'VAT',
+    'slug' => 'Slug',
+    'latitude' => 'Latitude',
+    'longitude' => 'Longitude',
 ];
