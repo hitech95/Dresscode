@@ -181,7 +181,8 @@ return [
         Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
         Propaganistas\LaravelPhone\PhoneServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-
+        Cocur\Slugify\Bridge\Laravel\SlugifyServiceProvider::class,
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
     ],
 
     /*
@@ -234,7 +235,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
 
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-
+        'Slugify' => Cocur\Slugify\Bridge\Laravel\SlugifyFacade::class,
     ],
 
 ];
