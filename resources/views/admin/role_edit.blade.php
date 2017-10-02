@@ -93,15 +93,15 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('shop_platform') ? ' has-error' : '' }}">
-                            {!! Form::label('shop_platform', 'Shop Owner', ['class' => 'col-md-4 control-label']) !!}
+                        <div class="form-group{{ $errors->has('owner_shop') ? ' has-error' : '' }}">
+                            {!! Form::label('owner_shop', 'Shop Owner', ['class' => 'col-md-4 control-label']) !!}
 
                             <div class="col-md-6">
-                                {!! Form::checkbox('shop_platform', '1', old('owner_platform')) !!}
+                                {!! Form::checkbox('owner_shop', '1', old('owner_shop')) !!}
 
-                                @if ($errors->has('shop_platform'))
+                                @if ($errors->has('owner_shop'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('shop_platform') }}</strong>
+                                        <strong>{{ $errors->first('owner_shop') }}</strong>
                                     </span>
                                 @endif
                             </div>
