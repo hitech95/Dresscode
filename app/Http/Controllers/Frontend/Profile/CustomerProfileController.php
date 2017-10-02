@@ -48,15 +48,15 @@ class CustomerProfileController extends Controller
         $data = $request->all();
         $this->validator($data)->validate();
 
-        if (array_key_exists('phone', $data) && isset($data['phone'])) {
+        if ($request->has('phone')) {
             $data['phone'] = PhoneNumber::make($data['phone'], 'IT');
         }
 
-        if (array_key_exists('email', $data)) {
+        if ($request->has('email')) {
             unset($data['email']);
         }
 
-        if (array_key_exists('password_change', $data) && isset($data['password_change'])) {
+        if ($request->has('password_change')) {
             if (Hash::check($data['password_old'], $customer->password)) {
                 $data['password'] = bcrypt($data['password']);
             } else {

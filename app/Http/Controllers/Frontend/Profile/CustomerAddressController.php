@@ -48,7 +48,7 @@ class CustomerAddressController extends Controller
         $data = $request->all();
         $this->validator($data)->validate();
 
-        if (array_key_exists('phone', $data) && isset($data['phone'])) {
+        if ($request->has('phone')) {
             $data['phone'] = PhoneNumber::make($data['phone'], 'IT');
         }
 

@@ -17,7 +17,7 @@ class TicketPolicy
      * @param  \App\Ticket  $ticket
      * @return mixed
      */
-    public function show(Customer $customer, Ticket $ticket)
+    public function view(Customer $customer, Ticket $ticket)
     {
         return $customer->id == $ticket->customer_id;
     }

@@ -90,7 +90,7 @@ class CustomerTicketController extends Controller
         $customer = Auth::guard('frontend')->user();
         $ticket = Ticket::with('attachments', 'category', 'status')->findOrFail($id);
 
-        if ($customer->can('show', $ticket)) {
+        if ($customer->can('view', $ticket)) {
             $canOpen = $customer->can('open', $ticket);
             $canClose = $customer->can('close', $ticket);
             $comments = $ticket->messages()->with('employee')->get();
