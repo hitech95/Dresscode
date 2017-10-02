@@ -25,7 +25,7 @@ class CreateAddressesTable extends Migration
             $table->string('name');
             $table->string('surname');
             $table->string('phone');
-            $table->boolean('invoice');
+            $table->boolean('invoice')->default(false);
             $table->softDeletes();
             $table->timestamps();
 
