@@ -66,4 +66,5 @@ return [
     'slug' => 'Slug',
     'latitude' => 'Latitude',
     'longitude' => 'Longitude',
+    'description' => 'Description',
 ];
