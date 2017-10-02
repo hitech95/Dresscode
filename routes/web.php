@@ -39,6 +39,17 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('dashboard', 'DashboardController@showDashboard')->name('admin.dashboard');
     Route::get('profile', 'EmployeeController@showCurrentEmployee')->name('admin.profile');
 
+    Route::resource('roles', 'RoleController', ['names' => [
+        'index' => 'admin.roles',
+        'show' => 'admin.role.show',
+        'create' => 'admin.role.create',
+        'store' => 'admin.role.store',
+        'edit' => 'admin.role.edit',
+        'update' => 'admin.role.update',
+        'destroy' => 'admin.role.destroy',
+    ]]);
+
+    Route::get('shop', 'ShopController@showCurrentShop')->name('admin.shop');
     Route::resource('shops', 'ShopController', ['names' => [
         'index' => 'admin.shops',
         'show' => 'admin.shop.show',
@@ -57,6 +68,16 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         'edit' => 'admin.brand.edit',
         'update' => 'admin.brand.update',
         'destroy' => 'admin.brand.destroy',
+    ]]);
+
+    Route::resource('customers', 'CustomerController', ['names' => [
+        'index' => 'admin.customers',
+        'show' => 'admin.customer.show',
+        'create' => 'admin.customer.create',
+        'store' => 'admin.customer.store',
+        'edit' => 'admin.customer.edit',
+        'update' => 'admin.customer.update',
+        'destroy' => 'admin.customer.destroy',
     ]]);
 });
 
