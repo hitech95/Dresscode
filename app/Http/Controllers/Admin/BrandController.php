@@ -51,14 +51,7 @@ class BrandController extends Controller
             $data = $request->all();
             $this->validator($data)->validate();
 
-            $brand = Brand::create([
-                'name' => $data['name'],
-            ]);
-
-            if (array_key_exists('slug', $data) && isset($data['slug'])) {
-                $brand->slug = $data['slug'];
-                $brand->save();
-            }
+            Brand::create($data);
 
             return redirect()->route('admin.brands');
         }
@@ -128,7 +121,17 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        // TODO
+        $employee = Auth::guard('admin')->user();
+        $brand = Brand::findOrFail($id);
+
+        if ($employee->can('delete', $brand)) {
+
+            $brand->delete();
+
+            return redirect()->route('admin.brands');
+        } else {
+            abort(404);
+        }
     }
 
     /**

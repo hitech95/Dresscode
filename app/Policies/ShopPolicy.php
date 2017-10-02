@@ -20,7 +20,9 @@ class ShopPolicy
      */
     public function lists(Employee $employee)
     {
-        return true; // TODO
+        //Employee with manage-employee or manage-shop-employee can see the roles
+        $permission = $employee->roles()->rememberForever()->active()->first();
+        return $permission->owner_platform || $permission->manage_shops;
     }
 
     /**
@@ -32,7 +34,10 @@ class ShopPolicy
      */
     public function view(Employee $employee, Shop $shop)
     {
-        return true; // TODO
+        //Employee with manage-employee or manage-shop-employee can see the roles
+        $permission = $employee->roles()->rememberForever()->active()->first();
+        return $permission->owner_platform || $permission->manage_shops
+            || ($shop->id == $employee->shop_id && ($permission->owner_shop || $permission->manage_shops));
     }
 
     /**
@@ -44,7 +49,10 @@ class ShopPolicy
      */
     public function update(Employee $employee, Shop $shop)
     {
-        return true; // TODO
+        //Employee with manage-employee or manage-shop-employee can see the roles
+        $permission = $employee->roles()->rememberForever()->active()->first();
+        return $permission->owner_platform || $permission->manage_shops
+            || ($shop->id == $employee->shop_id && ($permission->owner_shop || $permission->manage_shops));
     }
 
     /**
@@ -55,7 +63,10 @@ class ShopPolicy
      */
     public function create(Employee $employee)
     {
-        return true; // TODO
+        //Employee with manage-employee or manage-shop-employee can see the roles
+        $permission = $employee->roles()->rememberForever()->active()->first();
+        return $permission->owner_platform || $permission->manage_shop
+            || ($employee->shop_id == null && $permission->owner_shop);
     }
 
     /**
@@ -67,6 +78,9 @@ class ShopPolicy
      */
     public function delete(Employee $employee, Shop $shop)
     {
-        return true; // TODO
+        //Employee with manage-employee or manage-shop-employee can see the roles
+        $permission = $employee->roles()->rememberForever()->active()->first();
+        return $permission->owner_platform || $permission->manage_shops
+            || ($shop->id == $employee->shop_id && $permission->owner_shop);
     }
 }

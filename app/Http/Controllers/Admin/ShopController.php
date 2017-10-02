@@ -24,8 +24,7 @@ class ShopController extends Controller
             $shops = Shop::all();
             return view('admin.shops', compact('shops'));
         } else {
-            $id = null;
-            return show($id);
+            return showCurrentShop();
         }
     }
 
@@ -58,28 +57,15 @@ class ShopController extends Controller
             $data = $request->all();
             $this->validator($data)->validate();
 
-            if (array_key_exists('phone', $data) && isset($data['phone'])) {
+            if ($request->has('phone')) {
                 $data['phone'] = PhoneNumber::make($data['phone'], 'IT');
             }
 
-            if (array_key_exists('fax', $data) && isset($data['phone'])) {
+            if ($request->has('fax')) {
                 $data['fax'] = PhoneNumber::make($data['fax'], 'IT');
             }
 
-            $shop = Shop::create([
-                'name' => $data['name'],
-                'latitude' => $data['latitude'],
-                'longitude' => $data['longitude'],
-                'address' => $data['address'],
-                'phone' => $data['phone'],
-                'fax' => $data['fax'],
-                'vat' => $data['vat'],
-            ]);
-
-            if (array_key_exists('slug', $data) && isset($data['slug'])) {
-                $shop->slug = $data['slug'];
-                $shop->save();
-            }
+            Shop::create($data);
 
             return redirect()->route('admin.shops');
         }
@@ -98,7 +84,7 @@ class ShopController extends Controller
         $employee = Auth::guard('admin')->user();
         $shop = Shop::findOrFail($id);
 
-        if ($employee->can('show', $shop)) {
+        if ($employee->can('view', $shop)) {
             return view('admin.shop_show', compact('shop'));
         }
 
@@ -164,7 +150,26 @@ class ShopController extends Controller
      */
     public function destroy($id)
     {
-        // TODO
+        $employee = Auth::guard('admin')->user();
+        $shop = Shop::findOrFail($id);
+
+        if ($employee->can('delete', $shop)) {
+            $shop->delete();
+            return redirect()->route('admin.shops');
+        } else {
+            abort(404);
+        }
+    }
+
+    /**
+     * Show the shop assigned to the current employee.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showCurrentShop()
+    {
+        $id = null; // TODO
+        return show($id);
     }
 
     /**
