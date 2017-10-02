@@ -8,7 +8,16 @@
                     <li class="active">Shops</li>
                 </ol>
                 <div class="panel panel-default">
-                    <div class="panel-heading">Shops</div>
+                    <div class="panel-heading clearfix">
+                        <div class="pull-left">
+                            Shops
+                        </div>
+                        <div class="pull-right">
+                            <a class="btn btn-default" href="{{ route('admin.shop.create') }}">
+                                Add Shop
+                            </a>
+                        </div>
+                    </div>
                     <div class="panel-body">
                         <table class="table table-condensed">
                             <thead>
