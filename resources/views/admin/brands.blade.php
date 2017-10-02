@@ -27,6 +27,8 @@
                                     <td>
                                         <a href="{{ route('admin.brand.show', ['id' => $brand->id]) }}"
                                            class="btn btn-default">@lang('app.view')</a>
+                                        <a href="{{ route('admin.brand.edit', ['id' => $brand->id]) }}"
+                                           class="btn btn-default">@lang('app.edit')</a>
                                     </td>
                                 </tr>
                             @endforeach
